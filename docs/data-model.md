@@ -32,7 +32,7 @@ erDiagram
 
     sessions {
         uuid id PK
-        uuid invite_id FK UK
+        uuid invite_id FK
         timestamptz created_at
     }
 
@@ -60,8 +60,8 @@ erDiagram
     }
 
     task_candidates {
-        uuid task_id PK_FK
-        uuid image_id PK_FK
+        uuid task_id PK
+        uuid image_id PK
         smallint slot UK
     }
 
@@ -74,6 +74,8 @@ erDiagram
         timestamptz submitted_at
     }
 ```
+
+Note: `sessions.invite_id`, `cats.slug`, and `invites.token` are UNIQUE in SQL; Mermaid allows only one of `PK` / `FK` / `UK` per attribute line, so those uniques are documented here and in the relationships table.
 
 ## Relationships
 
