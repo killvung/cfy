@@ -91,7 +91,9 @@ class SupabaseReviewStore:
         cat = task_row.get("cats") or {}
         candidate_response = (
             self._client.table("task_candidates")
-            .select("slot, images(id, local_path, prompt, base_model, lora_version, seed)")
+            .select(
+                "slot, images(id, local_path, storage_url, prompt, base_model, lora_version, seed)"
+            )
             .eq("task_id", task_row["id"])
             .order("slot")
             .execute()
@@ -109,6 +111,7 @@ class SupabaseReviewStore:
                     id=image_id,
                     slot=row["slot"],
                     local_path=image.get("local_path") or "",
+                    storage_url=image.get("storage_url"),
                     prompt=image.get("prompt"),
                     base_model=image.get("base_model"),
                     lora_version=image.get("lora_version"),

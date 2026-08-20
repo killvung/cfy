@@ -110,11 +110,12 @@ class ReviewRenderer:
         selections: list[bool],
     ) -> None:
         for index, candidate in enumerate(task.candidates):
-            display = image_display_value(candidate.local_path)
+            display = image_display_value(candidate.local_path, candidate.storage_url)
             selected = selections[index] if index < len(selections) else False
             if display is None:
+                ref = candidate.storage_url or candidate.local_path or "unknown"
                 updates[f"image_{index}"] = gr.update(
-                    value=None, label=f"Missing image: {candidate.local_path or 'unknown'}"
+                    value=None, label=f"Missing image: {ref}"
                 )
             else:
                 updates[f"image_{index}"] = gr.update(value=display, label=None)

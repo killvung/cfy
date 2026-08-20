@@ -20,6 +20,7 @@ class CandidateImage:
     id: str
     slot: int
     local_path: str
+    storage_url: str | None
     prompt: str | None
     base_model: str | None
     lora_version: str | None

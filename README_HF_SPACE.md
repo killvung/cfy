@@ -27,7 +27,16 @@ Optional for Phase 1+ bucket access:
 
 | Secret | Description |
 | --- | --- |
-| `HF_TOKEN` | Hugging Face token with bucket read access |
+| `HF_TOKEN` | Hugging Face token with bucket read/write access |
+
+## Image assets
+
+Phase 0 candidate images are served from the public HF bucket
+[`killvung/cat-feedback-assets`](https://huggingface.co/buckets/killvung/cat-feedback-assets).
+Supabase `images.storage_url` points at bucket resolve URLs; the app prefers those over
+local `data/static/` paths (local dev still uses files on disk).
+
+The bucket is also mounted at `/data` on the Space for future read/write (Phase 1+).
 
 ## Usage
 

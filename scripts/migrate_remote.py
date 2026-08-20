@@ -32,6 +32,7 @@ MIGRATIONS_DIR = PROJECT_ROOT / "supabase" / "migrations"
 
 SEED_PATH = PROJECT_ROOT / "supabase" / "seed.sql"
 MULTI_ROUND_PATCH_PATH = PROJECT_ROOT / "supabase" / "patches" / "multi_round_demo.sql"
+STORAGE_URLS_PATCH_PATH = PROJECT_ROOT / "supabase" / "patches" / "storage_urls.sql"
 MANAGEMENT_API = "https://api.supabase.com/v1"
 
 
@@ -102,6 +103,20 @@ def apply_seed(client: httpx.Client, ref: str) -> None:
         print("Applied supabase/seed.sql")
 
     apply_multi_round_patch(client, ref)
+    apply_storage_urls_patch(client, ref)
+
+
+def apply_storage_urls_patch(client: httpx.Client, ref: str) -> None:
+    query = STORAGE_URLS_PATCH_PATH.read_text(encoding="utf-8")
+    response = client.post(
+        f"{MANAGEMENT_API}/projects/{ref}/database/query",
+        json={"query": query},
+    )
+    if not response.is_success:
+        raise RuntimeError(
+            f"Storage URLs patch failed ({response.status_code}): {response.text}"
+        )
+    print("Applied supabase/patches/storage_urls.sql")
 
 
 def apply_multi_round_patch(client: httpx.Client, ref: str) -> None:
