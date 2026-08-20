@@ -1,0 +1,7 @@
+# Minimal CLI config so `supabase db push` can apply remote migrations.
+# Secret keys (`sb_secret_...`) are for the Data API, not for schema push.
+
+project_id = "cfy"
+
+[db]
+major_version = 17
