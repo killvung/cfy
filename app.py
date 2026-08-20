@@ -1,5 +1,7 @@
 """Hugging Face Space entrypoint for the cat image review app."""
 
+import spaces  # ZeroGPU: must load before Gradio registers handlers
+
 import gradio as gr
 
 from app.app import create_app

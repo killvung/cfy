@@ -19,8 +19,17 @@ def create_app(store: SupabaseReviewStore | None = None) -> gr.Blocks:
     with gr.Blocks(title=APP_TITLE) as demo:
         ui = ReviewUI.build()
         wire_review_events(demo, ui, controller)
+        _wire_zerogpu_probe()
 
     return demo
+
+
+def _wire_zerogpu_probe() -> None:
+    """Hidden handler required when the Space runs on ZeroGPU hardware."""
+    from app.zerogpu import startup_probe
+
+    probe = gr.Button("", visible=False)
+    probe.click(fn=startup_probe, inputs=None, outputs=None, show_progress="hidden")
 
 
 def main() -> None:
