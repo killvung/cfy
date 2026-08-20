@@ -1,3 +1,16 @@
+---
+title: Cat Image Review
+emoji: 🐱
+colorFrom: blue
+colorTo: green
+sdk: gradio
+sdk_version: "6.25.0"
+app_file: app.py
+pinned: false
+license: mit
+short_description: Private invite-link cat image review (Phase 0)
+---
+
 # Cat Image Feedback Fine-Tuning
 
 Feedback-driven system for generating and evaluating images of specific cats. Phase 0 is a static evaluation prototype: no training or generation.
