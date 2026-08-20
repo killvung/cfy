@@ -78,9 +78,9 @@ Open with a demo invite token:
 http://127.0.0.1:7860/?invite=invite-reviewer-1-a7b3c9d2
 ```
 
-Reviewer UX is specified in [`docs/review-ui-ux.md`](docs/review-ui-ux.md). Backend access lives in `app/db.py` (`SupabaseReviewStore`, `get_review_store()`).
+Reviewer UX is specified in [`docs/gradio-frontend.md`](docs/gradio-frontend.md). Backend access lives in `app/db.py` (`SupabaseReviewStore`, `get_review_store()`).
 
-**Hugging Face Space:** see [`README_HF_SPACE.md`](README_HF_SPACE.md). Set Space secrets `SUPABASE_URL` and `SUPABASE_SECRET_KEY`. Entry point is root [`app.py`](app.py).
+**Hugging Face Space:** set Space secrets `SUPABASE_URL` and `SUPABASE_SECRET_KEY`. Entry point is root [`app.py`](app.py).
 
 Demo invite tokens (wire into your frontend as `?invite=…`):
 
@@ -107,7 +107,6 @@ Prints acceptance-rate tables and saves charts under `analytics/output/`.
 | `analytics/` | Feedback queries and acceptance-rate reports |
 | `supabase/` | SQL migration, seed data, and [data model diagram](docs/data-model.md) |
 | `data/static/` | Static candidate images for Phase 0 |
-| `training/`, `generation/`, `evaluation/` | Placeholders for later phases |
 | `scripts/` | Migration and validation helpers |
 
 ## Primary metric

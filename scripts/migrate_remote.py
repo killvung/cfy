@@ -1,6 +1,6 @@
 """Apply schema migrations and seed to a hosted Supabase project.
 
-Secret keys (`sb_secret_...`) authenticate the Data API (Streamlit / analytics).
+Secret keys (`sb_secret_...`) authenticate the Data API (review backend and analytics).
 They cannot run DDL. Schema changes use the Management API with a personal
 access token (`sbp_...`), which is the current programmatic equivalent of
 `supabase db push`.
@@ -31,8 +31,6 @@ from app.config import (
 MIGRATIONS_DIR = PROJECT_ROOT / "supabase" / "migrations"
 
 SEED_PATH = PROJECT_ROOT / "supabase" / "seed.sql"
-MULTI_ROUND_PATCH_PATH = PROJECT_ROOT / "supabase" / "patches" / "multi_round_demo.sql"
-STORAGE_URLS_PATCH_PATH = PROJECT_ROOT / "supabase" / "patches" / "storage_urls.sql"
 MANAGEMENT_API = "https://api.supabase.com/v1"
 
 
@@ -101,46 +99,6 @@ def apply_seed(client: httpx.Client, ref: str) -> None:
         if not response.is_success:
             raise RuntimeError(f"Seed failed ({response.status_code}): {response.text}")
         print("Applied supabase/seed.sql")
-
-    apply_multi_round_patch(client, ref)
-    apply_storage_urls_patch(client, ref)
-
-
-def apply_storage_urls_patch(client: httpx.Client, ref: str) -> None:
-    query = STORAGE_URLS_PATCH_PATH.read_text(encoding="utf-8")
-    response = client.post(
-        f"{MANAGEMENT_API}/projects/{ref}/database/query",
-        json={"query": query},
-    )
-    if not response.is_success:
-        raise RuntimeError(
-            f"Storage URLs patch failed ({response.status_code}): {response.text}"
-        )
-    print("Applied supabase/patches/storage_urls.sql")
-
-
-def apply_multi_round_patch(client: httpx.Client, ref: str) -> None:
-    check = client.post(
-        f"{MANAGEMENT_API}/projects/{ref}/database/query",
-        json={"query": "select count(*)::int as n from evaluation_tasks"},
-    )
-    check.raise_for_status()
-    rows = check.json()
-    task_count = rows[0]["n"] if rows else 0
-    if task_count >= 3:
-        print("Skipping multi-round patch (already has 3+ tasks)")
-        return
-
-    query = MULTI_ROUND_PATCH_PATH.read_text(encoding="utf-8")
-    response = client.post(
-        f"{MANAGEMENT_API}/projects/{ref}/database/query",
-        json={"query": query},
-    )
-    if not response.is_success:
-        raise RuntimeError(
-            f"Multi-round patch failed ({response.status_code}): {response.text}"
-        )
-    print("Applied supabase/patches/multi_round_demo.sql")
 
 
 def main() -> None:

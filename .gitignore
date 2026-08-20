@@ -5,6 +5,5 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 analytics/output/
-.streamlit/secrets.toml
 supabase/.temp/
 supabase/.branches/

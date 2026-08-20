@@ -6,7 +6,7 @@ import gradio as gr
 
 from app.db import SupabaseReviewStore, get_review_store
 from app.render import ReviewRenderer
-from app.styles import APP_TITLE, CUSTOM_CSS
+from app.styles import APP_TITLE
 from app.ui.controller import ReviewController
 from app.ui.layout import ReviewUI
 from app.ui.wiring import wire_review_events
@@ -30,11 +30,3 @@ def _wire_zerogpu_probe() -> None:
 
     probe = gr.Button("", visible=False)
     probe.click(fn=startup_probe, inputs=None, outputs=None, show_progress="hidden")
-
-
-def main() -> None:
-    create_app().launch(css=CUSTOM_CSS, theme=gr.themes.Soft())
-
-
-if __name__ == "__main__":
-    main()

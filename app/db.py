@@ -244,36 +244,6 @@ class SupabaseReviewStore:
             raise
 
 
-# Module-level helpers for scripts that pass a Client directly.
-def get_invite_by_token(client: Client, token: str) -> Invite | None:
-    return SupabaseReviewStore(client).get_invite_by_token(token)
-
-
-def get_or_create_session(client: Client, invite_id: str) -> str:
-    return SupabaseReviewStore(client).get_or_create_session(invite_id)
-
-
-def get_next_evaluation_task(client: Client, session_id: str) -> EvaluationTask | None:
-    return SupabaseReviewStore(client).get_next_evaluation_task(session_id)
-
-
-def get_first_evaluation_task(client: Client) -> EvaluationTask | None:
-    return SupabaseReviewStore(client).get_first_evaluation_task()
-
-
-def has_feedback_for_session_task(client: Client, session_id: str, task_id: str) -> bool:
-    return SupabaseReviewStore(client).has_feedback_for_session_task(session_id, task_id)
-
-
-def submit_feedback(
-    client: Client,
-    session_id: str,
-    task_id: str,
-    selections: dict[str, bool],
-) -> None:
-    SupabaseReviewStore(client).submit_feedback(session_id, task_id, selections)
-
-
 def get_review_store() -> SupabaseReviewStore:
     from app.config import create_supabase_client
 
